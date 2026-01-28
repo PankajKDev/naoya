@@ -23,3 +23,6 @@
     #a855f7 100%
   );
 }
+input {
+  @apply focus:outline-none;
+}
