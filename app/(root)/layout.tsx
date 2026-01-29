@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 
 function layout({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-background-dark min-h-screen flex flex-col">
+    <div className="bg-background-dark min-h-screen items-center flex flex-col">
       <Navbar />
-      {children}
+      <div className="w-full lg:w-[90%]">{children}</div>
     </div>
   );
 }

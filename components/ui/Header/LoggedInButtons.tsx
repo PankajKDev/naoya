@@ -1,5 +1,5 @@
 import { UserButton } from "@clerk/nextjs";
-import { Bell, LibraryBig } from "lucide-react";
+import { Bell, HouseIcon, LibraryBig } from "lucide-react";
 
 function LoggedInButtons() {
   return (
@@ -15,6 +15,11 @@ function LoggedInButtons() {
             label="My Library"
             labelIcon={<LibraryBig size={16} />}
             href="/library"
+          />
+          <UserButton.Link
+            label="My Rooms"
+            labelIcon={<HouseIcon size={16} />}
+            href="/rooms"
           />
         </UserButton.MenuItems>
       </UserButton>

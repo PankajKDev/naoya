@@ -6,6 +6,7 @@
   --color-background-dark: #141118;
   --color-surface-dark: #1e1b24;
   --color-sidebar-dark: #19161f;
+  --color-border-dark: #2d2936;
 
   /* Fonts */
   --font-display: "Be Vietnam Pro", sans-serif;
@@ -25,4 +26,11 @@
 }
 input {
   @apply focus:outline-none;
+}
+
+button {
+  @apply cursor-pointer;
+}
+.chip-btn {
+  @apply flex h-10 items-center justify-center px-6 rounded-xl bg-surface-dark border-border-dark text-slate-400 text-sm font-bold hover:text-white hover:border-slate-500 transition-all;
 }
