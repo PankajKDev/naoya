@@ -1,5 +1,5 @@
 import { ArrowRight, Flame } from "lucide-react";
-import LiveCard from "../ui/LiveCard";
+import LiveCard from "../ui/RoomComponent/LiveCard";
 
 function LiveStream() {
   return (
