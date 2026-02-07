@@ -8,7 +8,7 @@ function Hero() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-hero-gradient z-10"></div>
           <div
-            className="w-full h-full bg-cover bg-center opacity-60 transition-transform duration-[20s] ease-linear group-hover:scale-110"
+            className="w-full h-full bg-cover bg-center "
             data-alt="People laughing while watching a movie on a laptop in a dark room"
             style={{ backgroundImage: "url(/hero.png)" }}
           ></div>
