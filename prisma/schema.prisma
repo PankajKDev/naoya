@@ -22,6 +22,16 @@ model Room{
   RoomPassword String?
   currentVideo String
   ownerId String
+  owner   User   @relation("RoomOwner", fields: [ownerId], references: [clerkId],onDelete: Cascade)
+  members User[] @relation("RoomMembers")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
+}
+
+
+model User{
+  id String @id @unique @default(uuid())
+  clerkId String @unique
+  ownedRooms Room[] @relation("RoomOwner")
+  joinedRooms Room[] @relation("RoomMembers")
 }
