@@ -1,4 +1,10 @@
+"use client";
+
+import { useFormDataStore } from "@/stores/formDataStore";
+
 function RoomDetails() {
+  const { name, description, setField } = useFormDataStore();
+
   return (
     <>
       <div className="flex  flex-col gap-3">
@@ -6,10 +12,12 @@ function RoomDetails() {
           Room Name
         </label>
         <input
-          readOnly
+          value={name ?? ""}
+          onChange={(e) => {
+            setField("name", e.target.value);
+          }}
           className="w-full bg-slate-100 dark:bg-border-dark border-none rounded-xl h-14 px-5 text-lg font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50"
           placeholder="e.g. Friday Movie Night"
-          defaultValue="League of Legends Finals Party"
         />
       </div>
       <div className="flex flex-col gap-2 mt-5">
@@ -17,6 +25,8 @@ function RoomDetails() {
           Description (Optional)
         </label>
         <textarea
+          value={description ?? ""}
+          onChange={(e) => setField("description", e.target.value)}
           className="w-full bg-slate-100 dark:bg-border-dark border-none rounded-xl p-5 text-base text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/50 min-h-30 resize-none"
           placeholder="What are we watching? Tell your friends..."
         ></textarea>

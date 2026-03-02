@@ -1,9 +1,9 @@
 import CreateRoomHeading from "@/components/shared/Room/CreateRoomHeading";
 import PrivacySettings from "@/components/shared/Room/PrivacySettings";
+import RoomButton from "@/components/shared/Room/RoomButton";
 import RoomDetails from "@/components/shared/Room/RoomDetails";
 import Section from "@/components/shared/Room/Section";
 import SelectContent from "@/components/shared/Room/SelectContent";
-import { Rocket } from "lucide-react";
 
 function page() {
   return (
@@ -25,14 +25,7 @@ function page() {
           sectionTitle="Privacy Settings"
           SectionChild={<PrivacySettings />}
         />
-        <div className="w-full flex justify-center">
-          <button className="w-[80%] mt-10 bg-primary hover:bg-primary/90 text-white font-black text-xl py-6 rounded-xl shadow-xl shadow-primary/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-4">
-            Launch Room Now
-            <span className="text-white text-3xl">
-              <Rocket />
-            </span>
-          </button>
-        </div>
+        <RoomButton />
       </div>
     </div>
   );

@@ -1,16 +1,23 @@
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { userId: ownerId } = await auth();
-  if (!ownerId) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const { name, description, isPrivate, RoomPassword, currentVideo } =
+  const { name, description, isPrivate, RoomPassword, ownerId } =
     await request.json();
+  const sampleVideo = "https://youtu.be/dQw4w9WgXcQ?si=EuV000Wg-T-yzSCi";
   const newRoom = await prisma.room.create({
-    data: { name, description, isPrivate, RoomPassword, currentVideo, ownerId },
+    data: {
+      name,
+      description,
+      isPrivate,
+      RoomPassword,
+      currentVideo: sampleVideo,
+      owner: {
+        connect: {
+          clerkId: ownerId,
+        },
+      },
+    },
   });
 
   return NextResponse.json(
