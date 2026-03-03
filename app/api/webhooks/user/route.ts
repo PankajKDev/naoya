@@ -1,10 +1,9 @@
-// app/api/webhooks/route.ts
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+
 export async function POST(req: Request) {
-  // 1. Get the Secret
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -13,29 +12,23 @@ export async function POST(req: Request) {
     );
   }
 
-  // 2. Get the headers
-  const headerPayload = headers();
-  const svix_id = (await headerPayload).get("svix-id");
-  const svix_timestamp = (await headerPayload).get("svix-timestamp");
-  const svix_signature = (await headerPayload).get("svix-signature");
+  const headerPayload = await headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return new Response("Error occured -- no svix headers", {
       status: 400,
     });
   }
 
-  // 3. Get the body
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  const body = await req.text();
 
-  // 4. Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
 
-  // 5. Verify the payload with the headers
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -49,14 +42,16 @@ export async function POST(req: Request) {
     });
   }
 
-  // 6. Handle the event
   const eventType = evt.type;
 
-  if (eventType === "user.created") {
+  if (eventType === "user.created" || eventType === "user.updated") {
     const { id } = evt.data;
-
-    await prisma.user.create({
-      data: {
+    await prisma.user.upsert({
+      where: { clerkId: id },
+      create: {
+        clerkId: id,
+      },
+      update: {
         clerkId: id,
       },
     });
@@ -64,11 +59,12 @@ export async function POST(req: Request) {
 
   if (eventType === "user.deleted") {
     const { id } = evt.data;
-
-    await prisma.user.delete({
-      where: { clerkId: id },
-    });
+    if (id) {
+      await prisma.user.deleteMany({
+        where: { clerkId: id },
+      });
+    }
   }
 
-  return new Response("", { status: 200 });
+  return new Response("Webhook received", { status: 200 });
 }
