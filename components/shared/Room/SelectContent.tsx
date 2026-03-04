@@ -5,18 +5,14 @@ import {
   TvIcon,
   VideoOffIcon,
 } from "lucide-react";
+import AddYoutubeContent from "./AddYoutubeContent";
 
 function SelectContent() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="lg:w-[60%] w-[80%] flex justify-between  h-full  items-center  ">
         {/* Youtube icon */}
-        <div className="flex gap-2  flex-col">
-          <div className="w-16 h-16 rounded-full bg-red-700 justify-center flex items-center">
-            <PlayIcon color="#ffffff" fill="#ffffff" />
-          </div>
-          <span className="text-gray-400">Youtube</span>
-        </div>
+        <AddYoutubeContent />
         {/* Anime */}
         <div className="flex gap-2 flex-col">
           <div className="w-16 h-16 rounded-full bg-teal-500 justify-center flex items-center">

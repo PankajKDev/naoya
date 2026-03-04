@@ -13,8 +13,10 @@ export async function POST(req: Request) {
   }
 
   const headerPayload = await headers();
+  // headers read request headers in app router
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
+  // Clerk webhooks are signed using Svix.
   const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
@@ -24,7 +26,10 @@ export async function POST(req: Request) {
   }
 
   const body = await req.text();
+  // using req.text() instead of req.json() because signature verification
+  // requires the raw string body
 
+  //emsures request actually came from clerk and body wasnt tampered
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
@@ -46,6 +51,7 @@ export async function POST(req: Request) {
 
   if (eventType === "user.created" || eventType === "user.updated") {
     const { id } = evt.data;
+    // upsert = if user exists update if not create
     await prisma.user.upsert({
       where: { clerkId: id },
       create: {
