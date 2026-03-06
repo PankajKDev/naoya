@@ -4,18 +4,27 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { PlayIcon, Search, X } from "lucide-react";
 import ContentRow from "./ContentRow";
 import { searchYoutubeVideos } from "@/lib/actions";
+import { YoutubeVideo } from "@/types";
+import { useFormDataStore } from "@/stores/formDataStore";
 
 export default function AddYoutubeContent() {
   const [query, setQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
-  const [videos, setVideos] = useState(null);
+  const [videos, setVideos] = useState<YoutubeVideo[] | null>(null);
   const [open, setOpen] = useState(false);
+  const setVideoFields = useFormDataStore((state) => state.setField);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
     setHasSearched(true);
     const fetchedVideos = await searchYoutubeVideos(query);
     setVideos(fetchedVideos);
+  };
+
+  const onSelect = async (url: string, img: string) => {
+    setVideoFields("currentVideo", url);
+    setVideoFields("currentVideoThumbnail", img);
+    setOpen(false);
   };
 
   return (
@@ -68,7 +77,7 @@ export default function AddYoutubeContent() {
 
             {hasSearched && videos && (
               <div className="mt-6 flex-1 min-h-0 overflow-y-auto space-y-3 pr-2">
-                {videos.map((item: any) => (
+                {videos.map((item: YoutubeVideo) => (
                   <ContentRow
                     key={item.title}
                     title={item.title}
@@ -76,7 +85,7 @@ export default function AddYoutubeContent() {
                     img={item.img}
                     channelTitle={item.channelTitle}
                     publishedAt={item.publishedAt}
-                    onSelect={() => setOpen(false)}
+                    onSelect={() => onSelect(item.id, item.img)}
                   />
                 ))}
               </div>

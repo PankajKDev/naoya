@@ -20,7 +20,8 @@ model Room{
   description String?
   isPrivate Boolean
   RoomPassword String?
-  currentVideo String
+  playlistId String @unique  
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
   ownerId String
   owner   User   @relation("RoomOwner", fields: [ownerId], references: [clerkId],onDelete: Cascade)
   members User[] @relation("RoomMembers")
@@ -34,4 +35,23 @@ model User{
   clerkId String @unique
   ownedRooms Room[] @relation("RoomOwner")
   joinedRooms Room[] @relation("RoomMembers")
+}
+
+model Playlist{
+  id String @id @unique @default(uuid())
+  title String
+  roomId String @unique
+  room Room?
+  videos Video[]
+}
+
+model Video{
+  id String @id @default(uuid())
+  title String
+  url String
+  thumbnail String
+  order Int
+  playlistId String
+  playlist Playlist @relation(fields: [playlistId],references: [id],onDelete:Cascade)
+  addedAt DateTime @default(now())
 }

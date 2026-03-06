@@ -1,11 +1,6 @@
-import {
-  Music2,
-  PlayIcon,
-  SparklesIcon,
-  TvIcon,
-  VideoOffIcon,
-} from "lucide-react";
+import { Music2, SparklesIcon, TvIcon, VideoOffIcon } from "lucide-react";
 import AddYoutubeContent from "./AddYoutubeContent";
+import { useFormDataStore } from "@/stores/formDataStore";
 
 function SelectContent() {
   return (
@@ -37,13 +32,38 @@ function SelectContent() {
           <span className="text-gray-400">Youtube</span>
         </div>
       </div>
-      <div className="w-full flex justify-center items-center flex-col h-32 bg-gray-800 border-2 border-gray-600 rounded-xl border-dotted mt-5">
-        <VideoOffIcon size={40} color="gray" />
-        <h2 className="text-gray-400">No Video Selected</h2>
-        <h3 className="text-gray-600 text-sm">
-          Select a category above to get started
-        </h3>
-      </div>
+      {/* {!videoUrl ? (
+        <div className="w-full flex justify-center items-center flex-col h-32 bg-gray-800 border-2 border-gray-600 rounded-xl border-dotted mt-5">
+          <VideoOffIcon size={40} color="gray" />
+          <h2 className="text-gray-400">No Video Selected</h2>
+          <h3 className="text-gray-600 text-sm">
+            Select a category above to get started
+          </h3>
+        </div>
+      ) : (
+        <div className="w-full flex items-center gap-4 h-32 bg-gray-800 border border-gray-700 rounded-xl p-4 mt-5">
+          <img
+            src={videoThumbnail}
+            alt={videoTitle}
+            className="w-40 h-full object-cover rounded-lg"
+          />
+
+          <div className="flex flex-col justify-center">
+            <h2 className="text-gray-200 font-semibold line-clamp-2">
+              {videoTitle}
+            </h2>
+
+            <a
+              href={videoUrl}
+              target="_blank"
+              className="text-sm text-blue-400 hover:underline mt-2"
+            >
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+      )} */}
+      Result
     </div>
   );
 }
