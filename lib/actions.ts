@@ -1,5 +1,14 @@
 "use server";
-export async function searchYoutubeVideos(query: string) {
+
+import {
+  IYouTubeVideo,
+  YouTubeSearchItem,
+  YouTubeSearchResponse,
+} from "@/types";
+
+export async function searchYoutubeVideos(
+  query: string,
+): Promise<IYouTubeVideo[]> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   const maxResults = 10;
 
@@ -13,23 +22,27 @@ export async function searchYoutubeVideos(query: string) {
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
+    const data: YouTubeSearchResponse = await response.json();
 
     if (!response.ok) {
-      console.log("youtube  api error", data);
+      console.log("youtube api error", data);
       return [];
     }
+
     console.log(data);
-    return data.items.map((item) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      img: item.snippet.thumbnails.medium.url,
-      channelTitle: item.snippet.channelTitle,
-      publishedAt: item.snippet.publishedAt,
-    }));
+
+    return data.items.map(
+      (item: YouTubeSearchItem): IYouTubeVideo => ({
+        id: item.id.videoId,
+        title: item.snippet.title,
+        description: item.snippet.description,
+        img: item.snippet.thumbnails.medium.url,
+        channelTitle: item.snippet.channelTitle,
+        publishedAt: item.snippet.publishedAt,
+      }),
+    );
   } catch (e) {
-    console.log(`Error fetching videos:${e}`);
+    console.log(`Error fetching videos: ${e}`);
     return [];
   }
 }
