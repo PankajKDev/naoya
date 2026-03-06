@@ -40,7 +40,6 @@ model User{
 model Playlist{
   id String @id @unique @default(uuid())
   title String
-  roomId String @unique
   room Room?
   videos Video[]
 }
