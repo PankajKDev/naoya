@@ -1,8 +1,11 @@
+"use client";
 import { Music2, SparklesIcon, TvIcon, VideoOffIcon } from "lucide-react";
 import AddYoutubeContent from "./AddYoutubeContent";
-import { useFormDataStore } from "@/stores/formDataStore";
-
+import { useVideoDataStore } from "@/stores/videoDataStore";
+import Image from "next/image";
 function SelectContent() {
+  const { title, url, thumbnail } = useVideoDataStore();
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="lg:w-[60%] w-[80%] flex justify-between  h-full  items-center  ">
@@ -32,7 +35,7 @@ function SelectContent() {
           <span className="text-gray-400">Youtube</span>
         </div>
       </div>
-      {/* {!videoUrl ? (
+      {!url ? (
         <div className="w-full flex justify-center items-center flex-col h-32 bg-gray-800 border-2 border-gray-600 rounded-xl border-dotted mt-5">
           <VideoOffIcon size={40} color="gray" />
           <h2 className="text-gray-400">No Video Selected</h2>
@@ -42,28 +45,23 @@ function SelectContent() {
         </div>
       ) : (
         <div className="w-full flex items-center gap-4 h-32 bg-gray-800 border border-gray-700 rounded-xl p-4 mt-5">
-          <img
-            src={videoThumbnail}
-            alt={videoTitle}
-            className="w-40 h-full object-cover rounded-lg"
-          />
+          {thumbnail && (
+            <Image
+              src={thumbnail}
+              alt={title || "Video thumbnail"}
+              width={256}
+              height={256}
+              className="w-40 h-full object-cover rounded-lg"
+            />
+          )}
 
           <div className="flex flex-col justify-center">
             <h2 className="text-gray-200 font-semibold line-clamp-2">
-              {videoTitle}
+              {title}
             </h2>
-
-            <a
-              href={videoUrl}
-              target="_blank"
-              className="text-sm text-blue-400 hover:underline mt-2"
-            >
-              Watch on YouTube
-            </a>
           </div>
         </div>
-      )} */}
-      Result
+      )}
     </div>
   );
 }

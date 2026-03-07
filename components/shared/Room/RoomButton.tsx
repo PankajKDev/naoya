@@ -3,10 +3,12 @@ import { useFormDataStore } from "@/stores/formDataStore";
 import { useVideoDataStore } from "@/stores/videoDataStore";
 import { useUser } from "@clerk/nextjs";
 import { Rocket } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function RoomButton() {
   const user = useUser();
   const { name, description, isPrivate, RoomPassword } = useFormDataStore();
+  const router = useRouter();
 
   const { title, url, thumbnail } = useVideoDataStore();
   const handleSubmit = async () => {
@@ -26,7 +28,7 @@ function RoomButton() {
         }),
       });
       if (res) {
-        alert("room created");
+        router.push("/rooms");
       }
     } catch (e) {
       console.log(e);

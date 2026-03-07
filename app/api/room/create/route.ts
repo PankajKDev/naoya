@@ -32,6 +32,7 @@ export async function POST(request: Request) {
         name,
         description,
         isPrivate,
+        RoomThumbnail: thumbnail,
         RoomPassword: RoomPassword ?? null,
         ownerId,
         playlistId: playlist.id,
