@@ -1,12 +1,3 @@
-export interface YoutubeVideo {
-  id: string;
-  title: string;
-  time: string;
-  img: string;
-  channelTitle: string;
-  publishedAt: string;
-}
-
 export interface YouTubeSearchItem {
   id: {
     videoId: string;
@@ -28,7 +19,7 @@ export interface YouTubeSearchResponse {
   items: YouTubeSearchItem[];
 }
 
-export interface IYouTubeVideo {
+export interface YouTubeVideo {
   id: string;
   title: string;
   description: string;

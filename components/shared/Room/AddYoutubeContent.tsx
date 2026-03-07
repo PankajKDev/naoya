@@ -4,15 +4,15 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { PlayIcon, Search, X } from "lucide-react";
 import ContentRow from "./ContentRow";
 import { searchYoutubeVideos } from "@/lib/actions";
-import { YoutubeVideo } from "@/types";
-import { useFormDataStore } from "@/stores/formDataStore";
+import { YouTubeVideo } from "@/types";
+import { useVideoDataStore } from "@/stores/videoDataStore";
 
 export default function AddYoutubeContent() {
   const [query, setQuery] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
-  const [videos, setVideos] = useState<YoutubeVideo[] | null>(null);
+  const [videos, setVideos] = useState<YouTubeVideo[] | null>(null);
   const [open, setOpen] = useState(false);
-  const setVideoFields = useFormDataStore((state) => state.setField);
+  const setVideoFields = useVideoDataStore((state) => state.setField);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -21,9 +21,10 @@ export default function AddYoutubeContent() {
     setVideos(fetchedVideos);
   };
 
-  const onSelect = async (url: string, img: string) => {
-    setVideoFields("currentVideo", url);
-    setVideoFields("currentVideoThumbnail", img);
+  const onSelect = async (url: string, img: string, title: string) => {
+    setVideoFields("url", url);
+    setVideoFields("thumbnail", img);
+    setVideoFields("title", title);
     setOpen(false);
   };
 
@@ -77,15 +78,14 @@ export default function AddYoutubeContent() {
 
             {hasSearched && videos && (
               <div className="mt-6 flex-1 min-h-0 overflow-y-auto space-y-3 pr-2">
-                {videos.map((item: YoutubeVideo) => (
+                {videos.map((item: YouTubeVideo) => (
                   <ContentRow
                     key={item.title}
                     title={item.title}
-                    time={item.time}
                     img={item.img}
                     channelTitle={item.channelTitle}
                     publishedAt={item.publishedAt}
-                    onSelect={() => onSelect(item.id, item.img)}
+                    onSelect={() => onSelect(item.id, item.img, item.title)}
                   />
                 ))}
               </div>

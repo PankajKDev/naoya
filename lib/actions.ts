@@ -1,14 +1,14 @@
 "use server";
 
 import {
-  IYouTubeVideo,
+  YouTubeVideo,
   YouTubeSearchItem,
   YouTubeSearchResponse,
 } from "@/types";
 
 export async function searchYoutubeVideos(
   query: string,
-): Promise<IYouTubeVideo[]> {
+): Promise<YouTubeVideo[]> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   const maxResults = 10;
 
@@ -32,7 +32,7 @@ export async function searchYoutubeVideos(
     console.log(data);
 
     return data.items.map(
-      (item: YouTubeSearchItem): IYouTubeVideo => ({
+      (item: YouTubeSearchItem): YouTubeVideo => ({
         id: item.id.videoId,
         title: item.snippet.title,
         description: item.snippet.description,

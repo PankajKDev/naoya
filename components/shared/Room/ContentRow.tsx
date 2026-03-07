@@ -2,7 +2,7 @@ import Image from "next/image";
 
 interface ContentRowProps {
   title: string;
-  time: string;
+
   img: string;
   channelTitle: string;
   publishedAt: string;
@@ -11,7 +11,7 @@ interface ContentRowProps {
 
 export default function ContentRow({
   title,
-  time,
+
   img,
   channelTitle,
   publishedAt,
@@ -37,9 +37,6 @@ export default function ContentRow({
           sizes="160px"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute bottom-1 right-1 z-10 rounded bg-black/80 px-1 py-0.5 text-[10px] font-bold text-white">
-          {time}
-        </div>
       </div>
 
       <div className="flex min-w-0 flex-col justify-center">

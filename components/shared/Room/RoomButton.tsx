@@ -1,13 +1,14 @@
 "use client";
 import { useFormDataStore } from "@/stores/formDataStore";
+import { useVideoDataStore } from "@/stores/videoDataStore";
 import { useUser } from "@clerk/nextjs";
 import { Rocket } from "lucide-react";
 
 function RoomButton() {
   const user = useUser();
-  const { name, description, isPrivate, RoomPassword, currentVideo } =
-    useFormDataStore();
+  const { name, description, isPrivate, RoomPassword } = useFormDataStore();
 
+  const { title, url, thumbnail } = useVideoDataStore();
   const handleSubmit = async () => {
     try {
       const res = await fetch("/api/room/create", {
@@ -18,8 +19,10 @@ function RoomButton() {
           description,
           isPrivate,
           RoomPassword,
-          currentVideo,
           ownerId: user.user?.id,
+          title,
+          url,
+          thumbnail,
         }),
       });
       if (res) {
